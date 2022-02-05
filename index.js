@@ -1,8 +1,79 @@
-const inquirer = require('inquirer');
-const jest = require('jest');
+const inquirer = require("inquirer");
+const fs = require("fs");
+const path = require("path");
+const jest = require("jest");
 
-const Employee = require('./lib/Employee');
-const Engineer = require('./lib/Engineer');
-const Intern = require('./lib/Intern');
-const Manager = require('./lib/Manager');
+const Employee = require("./lib/Employee");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+const Manager = require("./lib/Manager");
 
+const DIST_DIR = path.resolve(__dirname, "dist");
+const outputPath = path.join(DIST_DIR, "index.html");
+
+const render = require("./src/page-template.js");
+const { type } = require("os");
+const { ADDRGETNETWORKPARAMS } = require("dns");
+
+const teamArr = [];
+const idArr = [];
+
+function initApp() {
+  function addManager() {
+    console.log("Start building your team profile");
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "managerName",
+        message: "What is the managers name?",
+        validate: (answer) => {
+          if (answer !== "") {
+            return true;
+          }
+          return "Please enter the managers name";
+        },
+      },
+      {
+          type: "input",
+          name: "managerId",
+          message: "What is the mangers ID?",
+          validate: answer => {
+              if (answer !== "") {
+                  return true;
+              }
+              return "Please enter managers ID";
+          }
+      },
+      {
+          type: "input",
+          name: "managerEmail",
+          message: "What is the mangers email?",
+          validate: answer => {
+              if (answer !== "") {
+                  return true;
+              }
+              return "Email address is blank";
+          }
+      },
+      {
+          type: "input",
+          name: "managerOfficeNumber",
+          message: "What is the managers office number ?",
+          validate: answer => {
+              const pass = answer.match(/^[1-9]\d*$/);
+              if (pass) {
+                  return true;
+              }
+              return "Please enter correct number";
+          }
+      }
+    ]).then(answers => {
+        const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOfficeNumber);
+        teamArr.push(manager);
+        idArr.push(answers.managerId);
+        addTeam(); 
+    });
+  }
+
+  
+}

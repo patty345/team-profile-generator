@@ -1,60 +1,60 @@
+// Export function to generate HTML page
 module.exports = (team) => {
   return `
     <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Profile Generator</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 jumbotron text-white mb-3">
-                <h1 class="text-center">My Team</h1>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Team Profile Generator</title>
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,700;1,300&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 jumbotron text-white mb-3">
+                    <h1 class="text-center">My Team</h1>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="main-section col-12 d-flex justify-content-center">
-            ${createProfile(team)}
+        <div class="container">
+            <div class="row">
+                <div class="main-section col-12 d-flex justify-content-center">
+                    ${createProfile(team)}
+                </div>
             </div>
-            </div>
-            </div>
-        </body>
-        </html>
+        </div>
+    </body>
+    </html>
     `;
 };
 
-const createProfile = team => {
-  const createManager = manager => {
+// Create Team Profile
+const createProfile = (team) => {
+  // Create Manager Profile
+  const createManager = (manager) => {
     return `
         <div class="card employee-card manager-card">
-        <div class="card-header text-center">
-          <h2 class="card-title">${manager.getName()}</h2>
-          <h4 class="card-title">Title: ${manager.getRole()}</h4>
+            <div class="card-header text-center">
+                <h2 class="card-title">${manager.getName()}</h2>
+                <h4 class="card-title">Title: ${manager.getRole()}</h4>
+            </div>
+            <div class="card-body bg-light">
+                <ul class="list-group text-dark">
+                    <li class="list-group-item">ID: ${manager.getId()}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</a></li>
+                    <li class="list-group-item">Office number: <a href="tel:${manager.getOfficeNumber()}">${manager.getOfficeNumber()}</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="card-body bg-light">
-          <ul class="list-group text-dark">
-            <li class="list-group-item">ID: ${manager.getId()}</li>
-            <li class="list-group-item">
-              Email:
-              <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</a>
-            </li>
-            <li class="list-group-item">
-              Office number: <a href="${manager.getOfficeNumber()}">${manager.getOfficeNumber()}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
         `;
   };
 
-  const createEngineer = engineer => {
+  // Create Engineer Profile
+  const createEngineer = (engineer) => {
     return `
         <div class="card employee-card engineer-card">
             <div class="card-header text-center">
@@ -72,7 +72,8 @@ const createProfile = team => {
         `;
   };
 
-  const createIntern = intern => {
+  // Create Intern Profile
+  const createIntern = (intern) => {
     return `
         <div class="card employee-card intern-card">
             <div class="card-header text-center">
@@ -94,19 +95,19 @@ const createProfile = team => {
 
   html.push(
     team
-      .filter(employee => employee.getRole() === "Manager")
-      .map(manager => createManager(manager))
+      .filter((employee) => employee.getRole() === "Manager")
+      .map((manager) => createManager(manager))
   );
   html.push(
     team
-      .filter(employee => employee.getRole() === "Engineer")
-      .map(engineer => createEngineer(engineer))
+      .filter((employee) => employee.getRole() === "Engineer")
+      .map((engineer) => createEngineer(engineer))
       .join("")
   );
   html.push(
     team
-      .filter(employee => employee.getRole() === "Intern")
-      .map(intern => createIntern(intern))
+      .filter((employee) => employee.getRole() === "Intern")
+      .map((intern) => createIntern(intern))
       .join("")
   );
 

@@ -81,134 +81,158 @@ function initApp() {
   }
 
   function addTeam() {
-    inquirer.prompt([
-      {
-        type: "list",
-        name: "memberChoice",
-        message: "Who do you want to add next?",
-        choices: [
-            "Engineer",
-            "Intern",
-            "End application"
-        ]
-      }
-    ]).then(userChoice => {
-        switch(userChoice.memberChoice) {
-            case "Engineer":
-                addEngineer();
-                break;
-            case "Intern":
-                addIntern();
-                break;
-            default:
-                generateHTML();        
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "memberChoice",
+          message: "Who do you want to add next?",
+          choices: ["Engineer", "Intern", "End application"],
+        },
+      ])
+      .then((userChoice) => {
+        switch (userChoice.memberChoice) {
+          case "Engineer":
+            addEngineer();
+            break;
+          case "Intern":
+            addIntern();
+            break;
+          default:
+            generateHTML();
         }
-    });
+      });
   }
 
   function addEngineer() {
-      inquirer.prompt([
-          {
-              type: "input",
-              name: "engineerName",
-              message: "What is the engineers name?",
-              validate: answer => {
-                  if(answer !== "") {
-                      return true;
-                  }
-                  return "Please enter engineer name";
-              }
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "engineerName",
+          message: "What is the engineers name?",
+          validate: (answer) => {
+            if (answer !== "") {
+              return true;
+            }
+            return "Please enter engineer name";
           },
-          {
-              type: "input",
-              name: "engineeId",
-              message: "What is the engineers id?",
-              validate: answer => {
-                  if (answer !== "") {
-                      return true;
-                  }
-                  return "Please enter an Engineers Id";
-              }
+        },
+        {
+          type: "input",
+          name: "engineerId",
+          message: "What is the engineers id?",
+          validate: (answer) => {
+            if (answer !== "") {
+              return true;
+            }
+            return "Please enter an Engineers Id";
           },
-          {
-              type: "input",
-              name: "engineerGithub",
-              message: "What is the engineer github username?",
-              validate: answer => {
-                  if (answer !== "") {
-                      return true;
-                  }
-                  return "Please enter the engineers Github username";
-              }
-          }
-      ]).then(answers => {
-          const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
-          teamArr.push(engineer);
-          idArr.push(answers.engineerId);
-          addTeam();
+        },
+        {
+          type: "input",
+          name: "engineerEmail",
+          message: "What is the engineers email?",
+          validate: (answer) => {
+            if (answer !== "") {
+              return true;
+            }
+            return "Please enter engineer email";
+          },
+        },
+
+        {
+          type: "input",
+          name: "engineerGithub",
+          message: "What is the engineer github username?",
+          validate: (answer) => {
+            if (answer !== "") {
+              return true;
+            }
+            return "Please enter the engineers Github username";
+          },
+        },
+      ])
+      .then((answers) => {
+        const engineer = new Engineer(
+          answers.engineerName,
+          answers.engineerId,
+          answers.engineerEmail,
+          answers.engineerGithub
+        );
+        teamArr.push(engineer);
+        idArr.push(answers.engineerId);
+        addTeam();
       });
   }
 
   function addIntern() {
-      inquirer.prompt([
-          {
-              type: "input",
-              name: "interName",
-              message: "What is the interns name?",
-              validate: answer => {
-                  if (answer !== "") {
-                      return true;
-                  }
-                  return "Please enter interns name";
-              }
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "internName",
+          message: "What is the interns name?",
+          validate: (answer) => {
+            if (answer !== "") {
+              return true;
+            }
+            return "Please enter interns name";
           },
-          {
-              type: "input",
-              name: "internId",
-              message: "What is the intern Id?",
-              validate: answer => {
-                  if (answer !== "") {
-                      return true;
-                  }
-                  return "Please enter interns Id";
-              }
+        },
+        {
+          type: "input",
+          name: "internId",
+          message: "What is the intern Id?",
+          validate: (answer) => {
+            if (answer !== "") {
+              return true;
+            }
+            return "Please enter interns Id";
           },
-          {
-              type: "input",
-              name: "internEmail",
-              message: "What is the interns email?",
-              validate: answer => {
-                  if (answer !== "") {
-                      return true;
-                  }
-                  return "Please enter email address";
-              }
+        },
+        {
+          type: "input",
+          name: "internEmail",
+          message: "What is the interns email?",
+          validate: (answer) => {
+            if (answer !== "") {
+              return true;
+            }
+            return "Please enter email address";
           },
-          {
-              type: "input",
-              name: "internSchool",
-              message: "What is the interns school name?",
-              validate: answer => {
-                  if (answer !== "") {
-                      return true;
-                  }
-                  return "Please enter interns school";
-              }
-          }
-      ]). then(answers => {
-          const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internSchool);
-          teamArr.push(intern);
-          idArr.push(answers.internId);
-          addTeam();
+        },
+        {
+          type: "input",
+          name: "internSchool",
+          message: "What is the interns school name?",
+          validate: (answer) => {
+            if (answer !== "") {
+              return true;
+            }
+            return "Please enter interns school";
+          },
+        },
+      ])
+      .then((answers) => {
+        const intern = new Intern(
+          answers.internName,
+          answers.internId,
+          answers.internEmail,
+          answers.internSchool
+        );
+        teamArr.push(intern);
+        idArr.push(answers.internId);
+        addTeam();
       });
   }
 
   function generateHTML() {
-      if (!fs.existsSync(DIST_DIR)) {
-          fs.mkdirSync(DIST_DIR)
-      }
-      console.log("Your Team has been created");
-      fs.writeFileSync(outputPath, render(teamArr), "utf-8");
+    if (!fs.existsSync(DIST_DIR)) {
+      fs.mkdirSync(DIST_DIR);
+    }
+    console.log("Your Team has been created");
+    fs.writeFileSync(outputPath, render(teamArr), "utf-8");
   }
   addManager();
 }

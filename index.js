@@ -120,8 +120,97 @@ function initApp() {
               }
           },
           {
-              
+              type: "input",
+              name: "engineeId",
+              message: "What is the engineers id?",
+              validate: answer => {
+                  if (answer !== "") {
+                      return true;
+                  }
+                  return "Please enter an Engineers Id";
+              }
+          },
+          {
+              type: "input",
+              name: "engineerGithub",
+              message: "What is the engineer github username?",
+              validate: answer => {
+                  if (answer !== "") {
+                      return true;
+                  }
+                  return "Please enter the engineers Github username";
+              }
           }
-      ])
+      ]).then(answers => {
+          const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
+          teamArr.push(engineer);
+          idArr.push(answers.engineerId);
+          addTeam();
+      });
   }
+
+  function addIntern() {
+      inquirer.prompt([
+          {
+              type: "input",
+              name: "interName",
+              message: "What is the interns name?",
+              validate: answer => {
+                  if (answer !== "") {
+                      return true;
+                  }
+                  return "Please enter interns name";
+              }
+          },
+          {
+              type: "input",
+              name: "internId",
+              message: "What is the intern Id?",
+              validate: answer => {
+                  if (answer !== "") {
+                      return true;
+                  }
+                  return "Please enter interns Id";
+              }
+          },
+          {
+              type: "input",
+              name: "internEmail",
+              message: "What is the interns email?",
+              validate: answer => {
+                  if (answer !== "") {
+                      return true;
+                  }
+                  return "Please enter email address";
+              }
+          },
+          {
+              type: "input",
+              name: "internSchool",
+              message: "What is the interns school name?",
+              validate: answer => {
+                  if (answer !== "") {
+                      return true;
+                  }
+                  return "Please enter interns school";
+              }
+          }
+      ]). then(answers => {
+          const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internSchool);
+          teamArr.push(intern);
+          idArr.push(answers.internId);
+          addTeam();
+      });
+  }
+
+  function generateHTML() {
+      if (!fs.existsSync(DIST_DIR)) {
+          fs.mkdirSync(DIST_DIR)
+      }
+      console.log("Your Team has been created");
+      fs.writeFileSync(outputPath, render(teamArr), "utf-8");
+  }
+  addManager();
 }
+
+initApp();

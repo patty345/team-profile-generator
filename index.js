@@ -105,4 +105,23 @@ function initApp() {
         }
     });
   }
+
+  function addEngineer() {
+      inquirer.prompt([
+          {
+              type: "input",
+              name: "engineerName",
+              message: "What is the engineers name?",
+              validate: answer => {
+                  if(answer !== "") {
+                      return true;
+                  }
+                  return "Please enter engineer name";
+              }
+          },
+          {
+              
+          }
+      ])
+  }
 }

@@ -30,8 +30,8 @@ module.exports = (team) => {
     `;
 };
 
-const createProfile = (team) => {
-  const createManager = (manager) => {
+const createProfile = team => {
+  const createManager = manager => {
     return `
         <div class="card employee-card manager-card">
         <div class="card-header text-center">
@@ -54,7 +54,7 @@ const createProfile = (team) => {
         `;
   };
 
-  const createEngineer = (engineer) => {
+  const createEngineer = engineer => {
     return `
         <div class="card employee-card engineer-card">
             <div class="card-header text-center">
@@ -72,7 +72,7 @@ const createProfile = (team) => {
         `;
   };
 
-  const createIntern = (intern) => {
+  const createIntern = intern => {
     return `
         <div class="card employee-card intern-card">
             <div class="card-header text-center">
@@ -94,19 +94,19 @@ const createProfile = (team) => {
 
   html.push(
     team
-      .filter((employee) => employee.getRole() === "Manager")
-      .map((manager) => createManager(manager))
+      .filter(employee => employee.getRole() === "Manager")
+      .map(manager => createManager(manager))
   );
   html.push(
     team
-      .filter((employee) => employee.getRole() === "Engineer")
-      .map((engineer) => createEngineer(engineer))
+      .filter(employee => employee.getRole() === "Engineer")
+      .map(engineer => createEngineer(engineer))
       .join("")
   );
   html.push(
     team
-      .filter((employee) => employee.getRole() === "Intern")
-      .map((intern) => createIntern(intern))
+      .filter(employee => employee.getRole() === "Intern")
+      .map(intern => createIntern(intern))
       .join("")
   );
 

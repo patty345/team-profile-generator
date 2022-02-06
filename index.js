@@ -1,8 +1,10 @@
+// All the dependencies
 const inquirer = require("inquirer");
 const fs = require("fs");
 const path = require("path");
 const jest = require("jest");
 
+// Constructors 
 const Employee = require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -16,7 +18,9 @@ const render = require("./src/page-template.js");
 const teamArr = [];
 const idArr = [];
 
+// Function to initalize the application
 function initApp() {
+  // Adding the manager info
   function addManager() {
     console.log("Start building your team profile");
     inquirer
@@ -79,7 +83,7 @@ function initApp() {
         addTeam();
       });
   }
-
+ // Adding the team choices 
   function addTeam() {
     inquirer
       .prompt([
@@ -165,7 +169,7 @@ function initApp() {
         addTeam();
       });
   }
-
+  // Adding the intern
   function addIntern() {
     inquirer
       .prompt([
@@ -226,7 +230,7 @@ function initApp() {
         addTeam();
       });
   }
-
+  // Generating the html 
   function generateHTML() {
     if (!fs.existsSync(DIST_DIR)) {
       fs.mkdirSync(DIST_DIR);
